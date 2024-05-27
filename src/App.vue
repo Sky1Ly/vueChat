@@ -10,8 +10,8 @@ export default {
       chat2: "",
       colorChat1: "#CCCCCC",
       colorChat2: "#78db76",
-      chatTemporal1: "",
-      chatTemporal2: ""
+      chatTemporal1: [],
+      chatTemporal2: [],
     }
   },
 
@@ -36,9 +36,11 @@ export default {
 
     updateChat(chat){
       if (chat === 1) {
-        this.chatTemporal1 = this.chat1
+        this.chatTemporal1.push(this.chat1)
+        this.chat1 = ""
       } else {
-        this.chatTemporal2 = this.chat2
+        this.chatTemporal2.push(this.chat2)
+        this.chat2 = ""
       }
     }
   },
@@ -70,8 +72,13 @@ export default {
         </div>
       </div>
 
-      <ChatComp :chatPrincipal="chatTemporal1" :chatSecundario="chatTemporal2" :colorChatPrincipal="colorChat1" :colorChatSecundario="colorChat2"/>
-
+      <div class="col-sm-6">
+        <div id="background">
+          <ChatComp :mensajes="chatTemporal1" :colorChat="colorChat1" :chatEnd="false"/>
+          <ChatComp :mensajes="chatTemporal2" :colorChat="colorChat2" :chatEnd="true"/>
+        </div>
+      </div>
+      
       <div class="col-sm-3 d-flex justify-content-center align-items-center">
         <div v-for="(user, i) in users" :key="i">
           <div v-if="i == 1" class="content-center">
@@ -96,7 +103,10 @@ export default {
   align-items: center;
 }
 
-.tex-center {
-  text-align: center;
+#background {
+    background-image: url('https://i.pinimg.com/736x/d2/a7/76/d2a77609f5d97b9081b117c8f699bd37.jpg');
+    object-fit: cover;
+    width: 100%;
+    height: 600px;
 }
 </style>
